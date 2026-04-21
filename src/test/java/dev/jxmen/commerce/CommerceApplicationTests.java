@@ -12,7 +12,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class CommerceApplicationTests {
 
 	@Container
-	@ServiceConnection
+	@ServiceConnection // datasource 설정을 자동으로 주입
 	static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16");
 
 	@Test
