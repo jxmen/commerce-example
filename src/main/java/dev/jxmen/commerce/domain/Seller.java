@@ -1,10 +1,30 @@
 package dev.jxmen.commerce.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "sellers")
 public class Seller {
 
-	private final String name;
-	private final String email;
-	private final String password;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(nullable = false)
+	private String name;
+
+	@Column(nullable = false, unique = true)
+	private String email;
+
+	@Column(nullable = false)
+	private String password;
+
+	protected Seller() {}
 
 	private Seller(String name, String email, String password) {
 		this.name = name;
@@ -15,7 +35,6 @@ public class Seller {
 	public static Seller signup(String name, String email, String rawPassword, PasswordEncoder passwordEncoder) {
 		return new Seller(name, email, passwordEncoder.encode(rawPassword));
 	}
-
 
 	@Override
 	public boolean equals(Object o) {
