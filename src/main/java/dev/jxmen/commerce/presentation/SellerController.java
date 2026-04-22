@@ -1,7 +1,10 @@
 package dev.jxmen.commerce.presentation;
 
 import dev.jxmen.commerce.application.SellerService;
+import dev.jxmen.commerce.application.SellerTokens;
 import dev.jxmen.commerce.domain.DuplicateEmailException;
+import dev.jxmen.commerce.domain.InvalidPasswordException;
+import dev.jxmen.commerce.domain.SellerNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +30,27 @@ public class SellerController {
 		sellerService.signup(request.name(), request.email(), request.password());
 	}
 
+	@PostMapping("/login")
+	public SellerLoginResponse login(@RequestBody @Valid SellerLoginRequest request) {
+		SellerTokens tokens = sellerService.login(request.email(), request.rawPassword());
+		return new SellerLoginResponse(tokens.accessToken(), tokens.refreshToken());
+	}
+
 	@ExceptionHandler(DuplicateEmailException.class)
 	@ResponseStatus(HttpStatus.CONFLICT)
 	public void handleDuplicateEmail() {}
+
+	@ExceptionHandler(SellerNotFoundException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public LoginErrorResponse handleSellerNotFound() {
+		return new LoginErrorResponse("SELLER_NOT_FOUND");
+	}
+
+	@ExceptionHandler(InvalidPasswordException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public LoginErrorResponse handleInvalidPassword() {
+		return new LoginErrorResponse("INVALID_PASSWORD");
+	}
+
+	record LoginErrorResponse(String code) {}
 }

@@ -9,3 +9,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+jwt:
+  secret: ${JWT_SECRET:dGVzdFNlY3JldEtleUZvckRldmVsb3BtZW50T25seU5vdEZvclByb2R1Y3Rpb24=}
+  access-token-expiry: ${JWT_ACCESS_TOKEN_EXPIRY:3600000}
+  refresh-token-expiry: ${JWT_REFRESH_TOKEN_EXPIRY:604800000}

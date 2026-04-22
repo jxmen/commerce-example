@@ -32,3 +32,33 @@ include::{snippets}/seller-signup-duplicate-email/http-response.adoc[]
 include::{snippets}/seller-signup-invalid-email/http-request.adoc[]
 
 include::{snippets}/seller-signup-invalid-email/http-response.adoc[]
+
+== 셀러 로그인
+
+`POST /api/sellers/login`
+
+=== 요청 필드
+
+include::{snippets}/seller-login/request-fields.adoc[]
+
+=== 응답 필드
+
+include::{snippets}/seller-login/response-fields.adoc[]
+
+=== 응답 예시 (성공 - 200)
+
+include::{snippets}/seller-login/http-request.adoc[]
+
+include::{snippets}/seller-login/http-response.adoc[]
+
+=== 응답 예시 (존재하지 않는 이메일 - 401)
+
+include::{snippets}/seller-login-seller-not-found/http-request.adoc[]
+
+include::{snippets}/seller-login-seller-not-found/http-response.adoc[]
+
+=== 응답 예시 (비밀번호 불일치 - 401)
+
+include::{snippets}/seller-login-invalid-password/http-request.adoc[]
+
+include::{snippets}/seller-login-invalid-password/http-response.adoc[]

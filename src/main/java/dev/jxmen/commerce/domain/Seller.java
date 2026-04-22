@@ -36,6 +36,10 @@ public class Seller {
 		return new Seller(name, email, passwordEncoder.encode(rawPassword));
 	}
 
+	public boolean matchesPassword(String rawPassword, PasswordEncoder passwordEncoder) {
+		return passwordEncoder.matches(rawPassword, this.password);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
