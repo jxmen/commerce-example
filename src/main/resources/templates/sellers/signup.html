@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>셀러 회원가입</title>
+</head>
+<body>
+<h1>셀러 회원가입</h1>
+
+<div id="error-message" style="color: red; display: none;"></div>
+
+<form id="signup-form">
+    <div>
+        <label for="name">이름</label>
+        <input type="text" id="name" />
+    </div>
+    <div>
+        <label for="email">이메일</label>
+        <input type="email" id="email" />
+    </div>
+    <div>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" />
+    </div>
+    <button type="submit">가입하기</button>
+</form>
+
+<p><a href="/sellers/login">로그인으로 이동</a></p>
+
+<script>
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const errorEl = document.getElementById('error-message');
+        errorEl.style.display = 'none';
+
+        const res = await fetch('/api/sellers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+            }),
+        });
+
+        if (res.status === 201) {
+            window.location.href = '/sellers/login';
+        } else if (res.status === 409) {
+            errorEl.textContent = '이미 사용 중인 이메일입니다.';
+            errorEl.style.display = 'block';
+        } else if (res.status === 400) {
+            errorEl.textContent = '입력값을 확인해주세요.';
+            errorEl.style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>
